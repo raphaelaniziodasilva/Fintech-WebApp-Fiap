@@ -20,10 +20,13 @@ public class UserList implements Action {
         List<User> userList = userDAO.userList();
 
         // Definindo objeto de usuário como um atributo de solicitação
-        request.setAttribute("users", userList);
+        request.setAttribute("userList", userList);
 
-        // enviar uma resposta de volta para user-added.jsp
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/user-list.jsp");
+        // enviar uma resposta de volta para user-list.jsp
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/user-list.jsp");
         dispatcher.forward(request, response);
+
+        // caminho para acessar a link
+        // http://localhost:8080/Fintech-WebApp/controladora?acao=UserList
     }
 }

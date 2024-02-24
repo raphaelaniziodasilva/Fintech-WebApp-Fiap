@@ -15,10 +15,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class CreatUser implements Action {
+public class CreateUser implements Action {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // pegando os inputs do formulário e fazendo a conversão de tipo
         int code = Integer.parseInt(request.getParameter("code"));
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
         String name = request.getParameter("name");
         String surname = request.getParameter("surname");
         String rg = request.getParameter("rg");
@@ -39,21 +41,21 @@ public class CreatUser implements Action {
         }
 
         // Criando usuario
-        User user = new User(code, name, surname, rg, cpf, dateOfBirth, cellPhone, telephone, cellPhone1, telephone1);
+        User user = new User(code, email, password, name, surname, rg, cpf, dateOfBirth, cellPhone, telephone, cellPhone1, telephone1);
 
         Connection connection = ConnectionFactory.getConnection();
 
         // Criando a instância do userDAO e implementada UserDAOImpl
         UserDAO userDAO = new UserDAOImpl(connection);
 
-        // inserindo o usuário no banco de dados
+        // adicionando o usuário no banco de dados
         userDAO.create(user);
 
         // Definindo objeto de usuário como um atributo de solicitação
         request.setAttribute("user", user);
 
         // enviar uma resposta de volta para user-added.jsp
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/user-added.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/user-added.jsp");
         dispatcher.forward(request, response);
     }
 }
